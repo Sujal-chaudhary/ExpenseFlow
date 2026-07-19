@@ -27,7 +27,7 @@ const generateAcccessAndRefreshTokens = async(userId) => {
 //CONTROLLERS:-
 
 //Register
-const registerUser = async(req,res) => {
+const register = async(req,res) => {
     //Data extract:
     const {name, email, password} = req.body;
     //validation
@@ -331,7 +331,7 @@ const updatePassword = async(req,res) =>{
 }
 
 export {
-    registerUser,
+    register,
     login,
     logout,
     getCurrentUser,
