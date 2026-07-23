@@ -1,9 +1,9 @@
 //only server startup logic:
 
 import { app } from "./app.js";
-import connectDB from './db/index.js'
+import connectDB from './config/index.js'
 import dotenv from 'dotenv';
-dotenv.config({path: './.env'});
+dotenv.config()
 
 const PORT = process.env.PORT || 8000;
 

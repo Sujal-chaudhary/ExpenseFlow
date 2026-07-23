@@ -4,9 +4,9 @@ import { User } from "../models/user.model.js"
 import jwt from "jsonwebtoken"
 
 
-export const verifyJWT = async(req,res) => {
+export const verifyJWT = async(req,res,next) => {
     try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("bearer", "")
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
         if(!token){
             return res.status(401).json({
                 success: false,
@@ -14,8 +14,15 @@ export const verifyJWT = async(req,res) => {
             })
         }
 
+        console.log(token);
+        
+
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        console.log(decodedToken);
+        
         const user = await User.findById(decodedToken?._id).select("name email")
+        console.log(user);
+        
         if(!user){
             return res.status(401).json({
                 success: false,
@@ -28,7 +35,7 @@ export const verifyJWT = async(req,res) => {
     } catch (error) {
          return res.status(401).json({
                 success: false,
-                message: "Invalid access token"
+                message: error.message
             })
     }
 }

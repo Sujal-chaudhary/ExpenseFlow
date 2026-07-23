@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 //method to generate tokens(helper fn)
 
-const generateAcccessAndRefreshTokens = async(userId) => {
+const generateAccessAndRefreshTokens = async(userId) => {
     try {
         const user = await User.findById(userId)
         if (!user) {
@@ -14,6 +14,8 @@ const generateAcccessAndRefreshTokens = async(userId) => {
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
 
+        console.log(accessToken);
+    
         user.refreshToken = refreshToken
         await user.save({validateBeforeSave: false})
 
@@ -134,9 +136,11 @@ const login = async(req,res) => {
    })
 
 } catch (error) {
+    console.log("login error:",error);
+    
         return res.status(500).json({
             success: false,
-            message: "server error"
+            message: error.message
         })
     }
 
@@ -145,7 +149,7 @@ const login = async(req,res) => {
 //Logout
 const logout = async(req,res) => {
     try {
-         await User.findByIdAndupdate(
+         await User.findByIdAndUpdate(
         req.user._id,{
 
             $unset:{
@@ -173,7 +177,7 @@ const logout = async(req,res) => {
     } catch (error) {
         return res.status(401).json({
             success: false,
-            message: "unauthorized"
+            message: error.message
         })
     }
 }
@@ -247,7 +251,7 @@ const getCurrentUser = async(req,res) =>{
   } catch (error) {
       return res.status(500).json({
               success:false,
-              message:"server error"
+              message:error.message
         }) 
   }
 }
@@ -291,7 +295,16 @@ const updateProfile = async(req,res) => {
 //change user password
 const updatePassword = async(req,res) =>{
     const {currentPassword, newPassword} = req.body
-    if(!currentPassword || !newPassword || newPassword <8){
+    console.log({
+    currentPassword,
+    newPassword,
+    length: newPassword?.length,
+    comparison: newPassword?.length < 15
+});
+
+    if(!currentPassword || !newPassword || newPassword.length < 15){
+        
+        
         return res.status(400).json({
             success: false,
             message: "password is too short"
