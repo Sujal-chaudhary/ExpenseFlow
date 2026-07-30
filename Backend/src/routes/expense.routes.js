@@ -5,7 +5,7 @@ import { addExpense, deleteExpense, downloadExpenseExcel, getAllExpense, getExpe
 const router = Router()
 
 router.route("/add").post(verifyJWT,addExpense);
-router.route("/get/:id").get(verifyJWT,getAllExpense);
+router.route("/get").get(verifyJWT,getAllExpense);
 router.route("/update/:id").patch(verifyJWT,updateExpense);
 router.route("/delete/:id").delete(verifyJWT, deleteExpense);
 router.route("/downloadexcel").get(verifyJWT,downloadExpenseExcel );

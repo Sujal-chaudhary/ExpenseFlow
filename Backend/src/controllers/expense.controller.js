@@ -38,10 +38,9 @@ const addExpense = async(req,res) => {
 
 const getAllExpense = async(req,res) => {
     const userId = req.user._id;
-    const {id} = req.params;
 
     try {
-        const userExpense = await Expense.findOne({_id:id, userId}).sort({date: -1});
+        const userExpense = await Expense.find({userId}).sort({date: -1});
         return res.status(200).json({
             success:true,
             data:userExpense

@@ -35,12 +35,10 @@ const addIncome = async(req,res) => {
 }
 
 //getIncome
-const getIncome = async(req,res) =>{
-     const {id} = req.params //for security reasons
+const getAllIncome = async(req,res) =>{
      const userId = req.user._id;
      try {
-        const userIncome = await Income.findOne({_id: id,userId}); //give the latest income of user
-        console.log(userIncome);
+        const userIncome = await Income.find({userId}).sort({date: -1});
         
         return res.status(200).json({
             success:true,
@@ -187,7 +185,7 @@ const getIncomeOverview = async(req,res) =>{
 
 export{
     addIncome,
-    getIncome,
+    getAllIncome,
     update,
     deleteIncome,
     downloadIncomeExcel,
