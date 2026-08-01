@@ -6,6 +6,8 @@ import Income from './pages/Income';
 import axios from "axios";
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Expense from './pages/Expense';
+import Profile from './pages/Profile';
 
 //to scrill to top when page gets reload or new page is visited
 const ScrollToTop = () => {
@@ -114,9 +116,17 @@ export default function App() {
           <Layout user={user} onLogout={handleLogout} />
        }>
           {/* pages */}
-          <Route path='/' element={<Dashboard />}></Route>
+          <Route path='/' element={<Dashboard />}/>
           <Route path="/income" element={<Income />} />
+          <Route path="/expense" element={<Expense />} />
+          <Route path="/profile" element={<Profile 
+             user={user}
+             onUpdateProfile={updateUserData}
+             onLogout={handleLogout}
+          />} />
         </Route>
+
+        <Route path='*' element={<Navigate to={user ? "/" : "/login"} replace/>} />
       </Routes>
     </>
   )

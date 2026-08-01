@@ -3,7 +3,7 @@ import { styles } from '../assets/dummyStyles'
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
-import { ArrowDown, ArrowUp, Car, ChevronDown, Clock, CreditCard, DollarSign, Gift, Home, Info, PieChart, PiggyBank, PiggyBankIcon, RefreshCw, ShoppingCart, TrendingUp, Utensils, Zap } from 'lucide-react';
+import { ArrowDown, ArrowUp, Car, ChevronDown, ChevronUp, Clock, CreditCard, DollarSign, Gift, Home, Info, PieChart, PiggyBank, PiggyBankIcon, RefreshCw, ShoppingCart, TrendingUp, Utensils, Zap } from 'lucide-react';
 import axios from 'axios';
 
 const CATEGORY_ICONS = {
@@ -422,7 +422,7 @@ function Layout({onLogout, user}) { //defined in parent APP
                                                 <div key={id} className={styles.transactions.transactionItem}>
                                                       <div className='flex items-center gap-1 md:gap-4 lg:gap-3'>
                                                                <div className={`p-2 rounded-lg ${
-                                                                styles.colors.bg(type)
+                                                                styles.colors.transaction.bg(type)
                                                                }`}>
                                                                         {CATEGORY_ICONS[category] || (
                                                                           <DollarSign className={styles.transactions.icon}/> 
@@ -470,7 +470,7 @@ function Layout({onLogout, user}) { //defined in parent APP
                                                        ) : (
                                                         <>
                                                         <ChevronDown className='w-5 h-5'/>
-                                                        View All Transactions({transactions})
+                                                        View All Transactions({transactions.length})
                                                         </>
                                                        ) }
                                                     </button>
