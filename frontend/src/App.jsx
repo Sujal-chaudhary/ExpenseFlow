@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Expense from './pages/Expense';
 import Profile from './pages/Profile';
+import { API_BASE_URL } from './config/api';
 
 //to scrill to top when page gets reload or new page is visited
 const ScrollToTop = () => {
@@ -51,7 +52,7 @@ export default function App() {
     try {
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/users/current-user",
+        `${API_BASE_URL}/users/current-user`,
         {
           withCredentials: true
         }
@@ -76,7 +77,7 @@ export default function App() {
 
   const clearAuth = async () => {
     try {
-      await axios.post("http://localhost:8000/api/v1/users/logout",
+      await axios.post(`${API_BASE_URL}/users/logout`,
         {},
         {
           withCredentials: true, //sending request along with request
