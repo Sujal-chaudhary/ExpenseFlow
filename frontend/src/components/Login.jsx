@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../config/api.js';
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ function Login({ onLogin }) {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/v1/users/login",
+        `${API_BASE_URL}/users/login`,
         formData,
         {
           withCredentials: true,

@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
 import { ArrowDown, ArrowUp, Car, ChevronDown, ChevronUp, Clock, CreditCard, DollarSign, Gift, Home, Info, PieChart, PiggyBank, PiggyBankIcon, RefreshCw, ShoppingCart, TrendingUp, Utensils, Zap } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 
 const CATEGORY_ICONS = {
   Food: <Utensils className="w-4 h-4" />,
@@ -51,7 +52,7 @@ const safeArrayFromResponse = (res) => {
   return [];
 };
 
-const API_BASE = "http://localhost:8000/api/v1";
+
 
 
 function Layout({onLogout, user}) { //defined in parent APP
@@ -68,8 +69,8 @@ function Layout({onLogout, user}) { //defined in parent APP
     try {
       setLoading(true);
       const [incomeRes, expenseRes] = await Promise.all([
-        axios.get(`${API_BASE}/income/get`, { withCredentials: true }),
-        axios.get(`${API_BASE}/expense/get`, { withCredentials: true  }),
+        axios.get(`${API_BASE_URL}/income/get`, { withCredentials: true }),
+        axios.get(`${API_BASE_URL}/expense/get`, { withCredentials: true  }),
       ]);
 
       const incomes = safeArrayFromResponse(incomeRes).map((i) => ({
@@ -109,7 +110,7 @@ function Layout({onLogout, user}) { //defined in parent APP
     try {
       const endpoint =
         transaction.type === "income" ? "income/add" : "expense/add";
-      await axios.post(`${API_BASE}/${endpoint}`, transaction, { withCredentials: true});
+      await axios.post(`${API_BASE_URL}/${endpoint}`, transaction, { withCredentials: true});
       await fetchTransactions();
       return true;
     } catch (err) {
@@ -125,7 +126,7 @@ function Layout({onLogout, user}) { //defined in parent APP
     try {
       const endpoint =
         transaction.type === "income" ? "income/update" : "expense/update";
-      await axios.put(`${API_BASE}/${endpoint}/${id}`, transaction, {
+      await axios.put(`${API_BASE_URL}/${endpoint}/${id}`, transaction, {
         withCredentials: true
       });
       await fetchTransactions();
@@ -142,7 +143,7 @@ function Layout({onLogout, user}) { //defined in parent APP
   const deleteTransaction = async (id, type) => {
     try {
       const endpoint = type === "income" ? "income/delete" : "expense/delete";
-      await axios.delete(`${API_BASE}/${endpoint}/${id}`, {withCredentials:true });
+      await axios.delete(`${API_BASE_URL}/${endpoint}/${id}`, {withCredentials:true });
       await fetchTransactions();
       return true;
     } catch (err) {

@@ -60,7 +60,11 @@ export default function App() {
       setUser(response.data.user || response.data);
 
     } catch (err) {
-      setUser(null);
+       if(err.response?.status === 401){
+         setUser(null);
+       }else{
+        console.error(err);
+       }
     } finally {
       setLoading(false);
     }
@@ -106,15 +110,16 @@ export default function App() {
 
   return (
     <>
+      <ScrollToTop/>
       <Routes>
 
         <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login onLogin={handleLogin} />} />
+        <Route path='/login' element={<Login onLogin={handleLogin}/>} />
 
         {/* Protected Routes */}
-        <Route element={
+        <Route element={ <ProtectedRoute user={user} loading={loading}>
           <Layout user={user} onLogout={handleLogout} />
-       }>
+       </ProtectedRoute>}>
           {/* pages */}
           <Route path='/' element={<Dashboard />}/>
           <Route path="/income" element={<Income />} />
@@ -131,3 +136,31 @@ export default function App() {
     </>
   )
 }
+
+//Overall Architecture
+/*
+App.jsx
+│
+├── fetchUser()  ← restore auth
+│
+├── handleLogin()
+│
+├── handleLogout()
+│
+├── updateUserData()
+│
+│
+└── Routes
+     │
+     ├── Login
+     ├── Signup
+     │
+     └── ProtectedRoute
+            │
+            └── Layout
+                  │
+                  ├── Dashboard
+                  ├── Income
+                  ├── Expense
+                  └── Profile
+*/

@@ -29,8 +29,9 @@ import AddTransactionModal from "../components/Add";
 import { getTimeFrameRange, generateChartPoints } from "../components/Helpers";
 import { CATEGORY_ICONS } from "../assets/color";
 import { expensePageStyles as styles } from "../assets/dummyStyles";
+import { API_BASE_URL } from "../config/api";
 
-const API_BASE = "http://localhost:8000/api/v1";
+
 
 function toIsoWithClientTime(dateValue) {
   if (!dateValue) {
@@ -94,7 +95,7 @@ const Expense = () => {
   // Fetch overview (GET /expense/overview?range=...)
   const fetchOverview = useCallback(async (range = timeFrame ?? "monthly") => {
     try {
-      const res = await axios.get(`${API_BASE}/expense/overview`, {
+      const res = await axios.get(`${API_BASE_URL}/expense/overview`, {
         withCredentials:true,
         params: { range },
       });
@@ -225,7 +226,7 @@ const Expense = () => {
       setLoading(true);
       const config = {
         method,
-        url: `${API_BASE}${url}`,
+        url: `${API_BASE_URL}${url}`,
         withCredentials:true,
       };
       

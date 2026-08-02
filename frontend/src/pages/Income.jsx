@@ -30,8 +30,9 @@ import FinancialCard from "../components/FinancialCard";
 import { getTimeFrameRange, generateChartPoints } from "../components/Helpers";
 import { INCOME_COLORS, CATEGORY_ICONS_Inc } from "../assets/color";
 import { incomeStyles as styles } from "../assets/dummyStyles";
+import { API_BASE_URL } from "../config/api";
 
-const API_BASE = "http://localhost:8000/api/v1";
+
 
 
 function toIsoWithClientTime(dateValue) {
@@ -280,7 +281,7 @@ const Income = () => {
   const fetchOverview = useCallback(
     async (range = timeFrame ?? "monthly") => {
       try {
-        const res = await axios.get(`${API_BASE}/income/overview`, {
+        const res = await axios.get(`${API_BASE_URL}/income/overview`, {
           withCredentials: true,
           params: { range },
         });
@@ -349,7 +350,7 @@ const Income = () => {
         date: toIsoWithClientTime(newTransaction.date),
       };
 
-      await axios.post(`${API_BASE}/income/add`, payload, {
+      await axios.post(`${API_BASE_URL}/income/add`, payload, {
         withCredentials: true
       });
       await refreshTransactions();
@@ -390,7 +391,7 @@ const Income = () => {
         date: toIsoWithClientTime(editForm.date),
       };
 
-      await axios.put(`${API_BASE}/income/update/${editingId}`, payload, {
+      await axios.put(`${API_BASE_URL}/income/update/${editingId}`, payload, {
        withCredentials: true
       });
 
@@ -421,7 +422,7 @@ const Income = () => {
 
       try {
         setLoading(true);
-        await axios.delete(`${API_BASE}/income/delete/${id}`, {
+        await axios.delete(`${API_BASE_URL}/income/delete/${id}`, {
          withCredentials:true
         });
 
@@ -440,7 +441,7 @@ const Income = () => {
 
   const handleExport = useCallback(async () => {
     try {
-      const res = await axios.get(`${API_BASE}/income/downloadexcel`, {
+      const res = await axios.get(`${API_BASE_URL}/income/downloadexcel`, {
         withCredentials:true,
         responseType: "blob",
       });

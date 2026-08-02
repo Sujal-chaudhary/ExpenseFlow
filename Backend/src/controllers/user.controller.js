@@ -119,10 +119,14 @@ const login = async(req,res) => {
     //generate tokens:
    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id); //now user is succesfully loggedIn
 
+   // Send auth cookies
+   const isProduction = process.env.NODE_ENV === "production";
+
    //now send cookies
    const options ={
     httpOnly: true,//browser stores it but js cannot read it
-    secure: process.env.NODE_ENV === "production" //cookies work on localhost not on https
+    secure:isProduction,
+    sameSite: isProduction? "none":"lax"
    }
 
    const loggedInUser = await User.findById(user._id)
@@ -161,10 +165,15 @@ const logout = async(req,res) => {
         }
      )
 
-      const options = {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === "production"
-  }
+    // Send auth cookies
+   const isProduction = process.env.NODE_ENV === "production";
+
+   //now send cookies
+   const options ={
+    httpOnly: true,//browser stores it but js cannot read it
+    secure:isProduction,
+    sameSite: isProduction? "none":"lax"
+   }
 
   return res
   .status(200)

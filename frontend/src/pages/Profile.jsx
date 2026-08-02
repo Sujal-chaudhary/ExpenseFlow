@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify';
 import axios from 'axios';
 import { modalStyles} from '../assets/dummyStyles';
+import { API_BASE_URL } from '../config/api';
 
-const API_BASE = "http://localhost:8000/api/v1";
+
 
 Modal.setAppElement('#root');
 // Move PasswordInput component outside of ProfilePage to prevent recreation on every render
@@ -78,7 +79,7 @@ const Profile = ({onUpdateProfile, onLogout}) => {
         setLoading(true);
       const config = {
         method,
-        url: `${API_BASE}${url}`,
+        url: `${API_BASE_URL}${url}`,
         withCredentials:true,
       };
       

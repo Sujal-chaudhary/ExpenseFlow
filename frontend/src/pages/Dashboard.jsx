@@ -9,6 +9,7 @@ import GaugeCard from '../components/GaugeCard.jsx'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import AddTransactionModal from '../components/Add';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 
 
 //to convert date to ISO timeline
@@ -211,7 +212,7 @@ function Dashboard() {
     const fetchDashboardOverview = async() => {
       try {
           setLoading(true);
-          const res = await axios.get("http://localhost:8000/api/v1/dashboard",
+          const res = await axios.get(`${API_BASE_URL}/dashboard`,
             {
               withCredentials: true,
             });
@@ -312,14 +313,14 @@ function Dashboard() {
     try {
       setLoading(true);
       if(newTransaction.type === "income"){
-        await axios.post("http://localhost:8000/api/v1/income/add",
+        await axios.post(`${API_BASE_URL}/income/add`,
           payload,
           {
             withCredentials: true
           }
         )
       }else{
-        await axios.post("http://localhost:8000/api/v1/expense/add",
+        await axios.post(`${API_BASE_URL}/expense/add`,
           payload,
           {
             withCredentials: true
