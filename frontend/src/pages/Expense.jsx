@@ -312,8 +312,8 @@ const Expense = () => {
   // Export -> GET /expense/downloadexcel (server) with client fallback
   const handleExport = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/expense/downloadexcel`, {
-        headers: getAuthHeaders(),
+      const res = await axios.get(`${API_BASE_URL}/expense/downloadexcel`, {
+        withCredentials:true,
         responseType: "blob",
       });
 
