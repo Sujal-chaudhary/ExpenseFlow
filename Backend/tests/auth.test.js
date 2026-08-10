@@ -6,7 +6,7 @@ dotenv.config({ path: '.env.test' }); //loads your test database URI
 
 import { app } from '../src/app.js';
 
-//a Jest lifecycle hook, runs once before any test in this file. We connect to Mongo here, once, rather than reconnecting for every single test.
+// Jest lifecycle hook, runs once before any test in this file. We connect to Mongo here, once, rather than reconnecting for every single test.
 beforeAll(async() => {
 await mongoose.connect(process.env.MONGODB_URI);
 });
